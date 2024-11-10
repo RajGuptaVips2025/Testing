@@ -107,8 +107,9 @@ function ChatBox() {
         <>
         {/* <VideoCall userId={userDetails?.id} socketRef={socketRef} remoteUserId={suggestedUser?._id}  /> */}
             {suggestedUser ?
-                (<div className="flex-grow flex flex-col bg-white dark:bg-neutral-950 dark:text-white">
-                    <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
+                (<div className="relative flex-grow flex flex-col bg-white dark:bg-neutral-950 dark:text-white">
+                    <div
+                        className="fixed top-0 w-[69rem] bg-white z-10 p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
                         <div className="flex items-center space-x-3">
                             <Avatar>
                                 <AvatarImage className="object-cover object-top" src={suggestedUser?.profilePicture} />
@@ -225,12 +226,12 @@ function ChatBox() {
                         <div className="message-form p-2 dark:bg-neutral-950 rounded-lg space-y-2">
                             {/* Media Preview Section */}
                             {filePreview && (
-                                <div className="relative w-20 h-20">
+                                <div className="relative w-20 h-20 ">
                                     {file?.type?.startsWith('image/') ? (
                                         <img
                                             src={filePreview}
                                             alt="Selected"
-                                            className="w-full h-full object-cover rounded-md"
+                                            className="w-full h-full object-cover rounded-md "
                                             loading="lazy"
                                         />
                                     ) : (
@@ -254,7 +255,7 @@ function ChatBox() {
                             {/* Form Input Section */}
                             <form
                                 onSubmit={(e) => sendMessageHandle(e, suggestedUser._id)}
-                                className="flex items-center space-x-4 border border-zinc-800 bg-transparent rounded-full px-4 py-2"
+                                className="flex items-center space-x-4 border border-zinc-800 bg-transparent rounded-full px-4 py-2 fixed bottom-2 w-[67.75rem] bg-white z-10 "
                             >
                                 <Smile className="h-6 w-6 text-black dark:text-white" />
                                 <input
@@ -309,3 +310,232 @@ function ChatBox() {
 }
 
 export default ChatBox
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// (
+//     <>
+//     {/* <VideoCall userId={userDetails?.id} socketRef={socketRef} remoteUserId={suggestedUser?._id}  /> */}
+//         {suggestedUser ?
+//             (<div className="flex-grow flex flex-col bg-white dark:bg-neutral-950 dark:text-white">
+//                 <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
+//                     <div className="flex items-center space-x-3">
+//                         <Avatar>
+//                             <AvatarImage className="object-cover object-top" src={suggestedUser?.profilePicture} />
+//                             <AvatarFallback>{suggestedUser?.username}</AvatarFallback>
+//                         </Avatar>
+//                         <div>
+//                             <Link to={`/profile/${suggestedUser?.username}`}>
+//                                 <p className="font-semibold text-sm dark:text-white">{suggestedUser?.username}</p>
+//                                 <p className="text-xs text-gray-500 dark:text-gray-400">Active 1h ago</p>
+//                             </Link>
+//                         </div>
+//                     </div>
+//                     <div className="flex">
+//                         <Button variant="ghost" size="sm" className="text-black dark:text-white">
+//                             <Phone className="h-6 w-6" />
+//                         </Button>
+//                         {/* <Button onClick={()=>startCall(suggestedUser?._id)} variant="ghost" size="sm" className="text-black dark:text-white"> */}
+//                         <Button onClick={() => navigate(`/call/${suggestedUser?._id}`)} variant="ghost" size="sm" className="text-black dark:text-white">
+//                             <Video className="h-7 w-7" />
+//                         </Button>
+//                         <Button variant="ghost" size="sm" className="text-black dark:text-white">
+//                             <Info className="h-6 w-6" />
+//                         </Button>
+//                     </div>
+//                 </div>
+//                 <ScrollArea className="flex-grow py-1 px-6">
+//                     <div className="flex justify-center">
+//                         <Avatar className="w-20 h-20">
+//                             <AvatarImage className="object-cover object-top w-full h-full" src={suggestedUser?.profilePicture} />
+//                             <AvatarFallback>{suggestedUser?.username}</AvatarFallback>
+//                         </Avatar>
+//                     </div>
+//                     <div className='flex flex-col justify-center items-center'>
+//                         <p className="text-center mt-2 font-semibold">{suggestedUser?.username}</p>
+//                         <p className="text-center mb-2">{suggestedUser?.fullName}</p>
+//                         <Link to={`/profile/${suggestedUser?.username}`}>
+//                             <Button className='text-sm'>View profile</Button>
+//                         </Link>
+//                     </div>
+//                     {messages && Array.isArray(messages) && messages?.map((message, index) => (
+//                         <div
+//                             key={index}
+//                             className={`flex ${message.senderId?._id === userDetails.id || message.senderId === userDetails.id
+//                                 ? "justify-end"
+//                                 : "justify-start"
+//                                 } my-0`}
+//                         >
+//                             <div className="messagebox flex gap-0 items-center">
+//                                 {!(message.senderId?._id === userDetails.id || message.senderId === userDetails.id) && (
+//                                     <div className="image">
+//                                         <Avatar className="w-5 h-5 bg-red-400">
+//                                             <AvatarImage
+//                                                 src={message?.senderId?.profilePicture}
+//                                                 className="w-full h-full rounded-full object-top object-cover"
+//                                             />
+//                                             <AvatarFallback className="text-xs">{message?.senderId?.username}</AvatarFallback>
+//                                         </Avatar>
+//                                     </div>
+//                                 )}
+
+//                                 <div className="px-2 py-2 rounded-full break-words max-w-sm text-sm">
+//                                     {message.messageType === "image" && (
+//                                         <img
+//                                             src={message.mediaUrl}
+//                                             alt="Image message"
+//                                             className="w-56 h-96 rounded-xl object-cover cursor-pointer"
+//                                             onClick={() => handleMediaClick(message.mediaUrl)} // Open dialog on click
+//                                         />
+//                                     )}
+
+//                                     {message.messageType === "video" && (
+//                                         <video
+//                                             src={message.mediaUrl}
+//                                             className="w-56 h-80 rounded-xl bg-black object-cover cursor-pointer"
+//                                             onClick={() => handleMediaClick(message.mediaUrl)} // Open dialog on click
+//                                         />
+//                                     )}
+
+//                                     {message.messageType === "text" && (
+//                                         <p
+//                                             className={`px-3 py-2 rounded-full break-words max-w-sm text-sm ${message.senderId?._id === userDetails.id || message.senderId === userDetails.id
+//                                                 ? "bg-blue-400 text-white"
+//                                                 : "bg-neutral-100 dark:bg-zinc-800 dark:text-white"
+//                                                 }`}
+//                                         >
+//                                             {message.message}
+//                                         </p>
+//                                     )}
+//                                 </div>
+//                             </div>
+//                         </div>
+//                     ))}
+//                     <div ref={messagesEndRef} />
+//                     {/* Dialog for displaying media */}
+//                     {selectedMedia && (
+//                         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+//                             <DialogTrigger className="hidden" />
+//                             <DialogContent className="bg-transparent border-none shadow-none min-w-[80vw] max-w-[80vw] h-[90vh] flex justify-center items-center">
+//                                 <DialogClose onClick={() => setIsDialogOpen(false)} />
+//                                 {selectedMedia.endsWith(".mp4") || selectedMedia.endsWith(".webm") ? (
+//                                     <video src={selectedMedia} autoPlay controls className="w-full h-full rounded-xl" />
+//                                 ) : (
+//                                     <img
+//                                         src={selectedMedia}
+//                                         alt="Selected media"
+//                                         className="w-full h-full rounded-xl object-contain"
+//                                     />
+//                                 )}
+//                             </DialogContent>
+//                         </Dialog>
+//                     )}
+//                 </ScrollArea >
+//                 <div className="px-4 pb-2 fixed bottom-0">
+//                     <div className="message-form p-2 dark:bg-neutral-950 rounded-lg space-y-2">
+//                         {/* Media Preview Section */}
+//                         {filePreview && (
+//                             <div className="relative w-20 h-20">
+//                                 {file?.type?.startsWith('image/') ? (
+//                                     <img
+//                                         src={filePreview}
+//                                         alt="Selected"
+//                                         className="w-full h-full object-cover rounded-md"
+//                                         loading="lazy"
+//                                     />
+//                                 ) : (
+//                                     <video
+//                                         src={filePreview}
+//                                         controls
+//                                         className="w-full h-full object-cover rounded-md"
+//                                     />
+//                                 )}
+//                                 {/* Clear Icon to remove file */}
+//                                 <div
+//                                     onClick={clearFile}
+//                                     className='absolute right-1 top-1 p-1 bg-zinc-500/50 rounded-full '>
+//                                     <X
+//                                         className="dark:text-white rounded-full h-3 w-3 cursor-pointer"
+//                                     />
+//                                 </div>
+//                             </div>
+//                         )}
+
+//                         {/* Form Input Section */}
+//                         <form
+//                             onSubmit={(e) => sendMessageHandle(e, suggestedUser._id)}
+//                             className="flex items-center space-x-4 border border-zinc-800 bg-transparent rounded-full px-4 py-2"
+//                         >
+//                             <Smile className="h-6 w-6 text-black dark:text-white" />
+//                             <input
+//                                 value={textMessage}
+//                                 onChange={(e) => setTextMessage(e.target.value)}
+//                                 className="flex-grow bg-transparent border-none outline-none text-sm dark:text-white placeholder-gray-400"
+//                                 placeholder="Message..."
+//                             />
+//                             <input
+//                                 type="file"
+//                                 accept="image/*,video/*"
+//                                 onChange={handleFileChange}
+//                                 className="hidden"
+//                                 id="fileInput"
+//                             />
+//                             <label htmlFor="fileInput">
+//                                 <Camera className="h-6 w-6 text-black dark:text-white cursor-pointer" />
+//                             </label>
+//                             {isresOk ?
+
+//                                 <Button variant="outline" type="submit" className="text-sm font-semibold text-blue-400 hover:text-blue-400 hover:bg-white border-none dark:hover:bg-neutral-950 dark:hover:text-blue-400 p-0">
+//                                     Send
+//                                 </Button> :
+//                                 <Button disabled variant="outline" type="submit" className="text-sm font-semibold text-blue-400 hover:text-blue-400 hover:bg-white border-none dark:hover:bg-neutral-950 dark:hover:text-blue-400 p-0">
+//                                     <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+//                                     Send
+//                                 </Button>
+//                             }
+//                         </form>
+//                     </div>
+//                 </div>
+//             </div >)
+//             : (
+//                 <div className="flex-grow flex flex-col justify-center items-center bg-white dark:bg-neutral-950 dark:text-white">
+//                     <div className="emptyField flex flex-col justify-center items-center">
+//                         <div>
+//                             <AiOutlineMessage size={100} />
+//                         </div>
+//                         <div className="flex flex-col justify-center items-center my-2">
+//                             <p className='text-xl'>Your messages</p>
+//                             <p className='text-zinc-500 text-sm'>Send a message to start a chat.</p>
+//                         </div>
+//                         <div className="flex justify-center items-center my-2">
+//                             <button className='bg-blue-500 text-sm font-semibold text-white px-3 py-2 rounded-md'> send message</button>
+//                         </div>
+//                     </div>
+//                 </div>
+//             )
+//         }
+//     </>
+// )
