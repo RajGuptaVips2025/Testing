@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { setMessages } from '../../features/userDetail/userDetailsSlice';
 import axios from 'axios';
 import { AiOutlineMessage } from 'react-icons/ai';
+import { FaLessThan } from "react-icons/fa";
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Button } from '../ui/button';
 import { Camera, Heart, Info, Mic, Phone, Smile, Video, X } from 'lucide-react';
@@ -85,7 +86,7 @@ function ChatBox() {
             }
         } catch (error) {
             console.log(error.message);
-            if (error?.response && error?.response?.status === 401||error.response?.status===403) navigate('/login');
+            if (error?.response && error?.response?.status === 401 || error.response?.status === 403) navigate('/login');
         }
         finally {
             setIsResOk(true)
@@ -105,12 +106,15 @@ function ChatBox() {
 
     return (
         <>
-        {/* <VideoCall userId={userDetails?.id} socketRef={socketRef} remoteUserId={suggestedUser?._id}  /> */}
+            {/* <VideoCall userId={userDetails?.id} socketRef={socketRef} remoteUserId={suggestedUser?._id}  /> */}
             {suggestedUser ?
                 (<div className="relative flex-grow flex flex-col bg-white dark:bg-neutral-950 dark:text-white">
                     <div
                         className="fixed top-0 w-[69rem] bg-white z-10 p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
                         <div className="flex items-center space-x-3">
+                            <div className='flex md:hidden'>
+                                <FaLessThan size={20} />
+                            </div>
                             <Avatar>
                                 <AvatarImage className="object-cover object-top" src={suggestedUser?.profilePicture} />
                                 <AvatarFallback>{suggestedUser?.username}</AvatarFallback>
@@ -289,7 +293,7 @@ function ChatBox() {
                     </div>
                 </div >)
                 : (
-                    <div className="flex-grow flex flex-col justify-center items-center bg-white dark:bg-neutral-950 dark:text-white">
+                    <div className="hidden sm:flex-grow sm:flex sm:flex-col sm:justify-center sm:items-center bg-white dark:bg-neutral-950 dark:text-white">
                         <div className="emptyField flex flex-col justify-center items-center">
                             <div>
                                 <AiOutlineMessage size={100} />
@@ -299,10 +303,25 @@ function ChatBox() {
                                 <p className='text-zinc-500 text-sm'>Send a message to start a chat.</p>
                             </div>
                             <div className="flex justify-center items-center my-2">
-                                <button className='bg-blue-500 text-sm font-semibold text-white px-3 py-2 rounded-md'> send message</button>
+                                <button className='bg-blue-500 text-sm font-semibold text-white px-3 py-2 rounded-md'>send message</button>
                             </div>
                         </div>
                     </div>
+
+                    // <div className="sm:hidden flex-grow flex flex-col justify-center items-center bg-white dark:bg-neutral-950 dark:text-white">
+                    //     <div className="emptyField flex flex-col justify-center items-center">
+                    //         <div>
+                    //             <AiOutlineMessage size={100} />
+                    //         </div>
+                    //         <div className="flex flex-col justify-center items-center my-2">
+                    //             <p className='text-xl'>Your messages</p>
+                    //             <p className='text-zinc-500 text-sm'>Send a message to start a chat.</p>
+                    //         </div>
+                    //         <div className="flex justify-center items-center my-2">
+                    //             <button className='bg-blue-500 text-sm font-semibold text-white px-3 py-2 rounded-md'> send message</button>
+                    //         </div>
+                    //     </div>
+                    // </div>
                 )
             }
         </>

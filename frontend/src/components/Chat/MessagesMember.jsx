@@ -7,7 +7,7 @@ import { SearchDialogWithCheckboxesComponent } from './search-dialog-with-checkb
 
 function MessagesMember({ socketRef }) {
     const followingUsers = useSelector((state) => state.counter.followingUsers);
-    console.log(followingUsers);
+    // console.log(followingUsers);
     const onlineUsers = useSelector((state) => state.counter.onlineUsers);
     const dispatch = useDispatch()
     return (
