@@ -186,7 +186,7 @@ function PostComment({ selectedMedia, isDialogOpen, setIsDialogOpen }) {
                                         <CarouselNext className="right-1 dark:text-white" />
                                     </Carousel>
                                 ) : (
-                                    selectedMedia?.media?.mediaPath?.endsWith(".mp4") || selectedMedia?.mediaPath?.endsWith(".webm") ? (
+                                    selectedMedia?.media[0]?.mediaPath?.endsWith(".mp4") || selectedMedia?.mediaPath?.endsWith(".webm") ? (
                                         <video src={selectedMedia?.media[0]?.mediaPath} autoPlay controls className="w-full h-full rounded-xl" />
                                     ) : (
                                         <img

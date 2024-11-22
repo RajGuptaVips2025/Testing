@@ -19,7 +19,6 @@ const getReciverSocketId = (receiverId) => userSocketMap[receiverId];
 
 io.on('connection', (socket) => {
   const userId = socket.handshake.query.userId;
-  console.log(`User connected with socket ID: ${socket.id}`);  // Log message for each connection
   if (userId) {
     userSocketMap[userId] = socket.id;
   }

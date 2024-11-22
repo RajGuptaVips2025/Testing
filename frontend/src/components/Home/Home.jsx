@@ -29,6 +29,7 @@ const Home = ({ socketRef }) => {
     setIsLoading(true);
     try {
       const { data: posts } = await axios.get(`/api/posts/getPosts?page=${page}&limit=10`);
+      console.log(posts);
       if (posts.length > 0) {
         setAllPosts((prevPosts) => [...prevPosts, ...posts]);
       } else {
@@ -46,16 +47,6 @@ const Home = ({ socketRef }) => {
     if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight || isLoading) return;
     setPage((prevPage) => prevPage + 1);
   };
-
-  useEffect(() => {
-    fetchPosts(page);
-  }, [page]);
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [isLoading]);
-
 
   const handleLike = async (e, postId) => {
     e.preventDefault();
@@ -164,6 +155,16 @@ const Home = ({ socketRef }) => {
     }
   };
 
+
+  useEffect(() => {
+    fetchPosts(page);
+  }, [page]);
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isLoading]);
+
   useEffect(() => {
     getFollowing();
     getSavePosts();
@@ -171,7 +172,8 @@ const Home = ({ socketRef }) => {
 
   useEffect(() => {
     socketRef.current.on('rtmNotification', (rtmNotification) => {
-      {rtmNotification.id!==userDetails?.id&&
+      {
+        rtmNotification.id !== userDetails?.id &&
         dispatch(setRtmNotification(rtmNotification))
       }
     });
@@ -181,37 +183,41 @@ const Home = ({ socketRef }) => {
   }, []); // Empty dependency array to ensure the listener is added only once
 
   return (<div className='dark:bg-neutral-950 dark:text-white'>
-
-
     <div className="flex bg-white dark:bg-neutral-950 min-h-screen">
-      <Sidebar />
+      {/* <Sidebar /> */}
       <PostComment selectedMedia={selectedMedia} isDialogOpen={isDialogOpen} setIsDialogOpen={setIsDialogOpen} />
-      <main className="flex-1 ml-64 flex justify-center">
-        <div className="max-w-2xl w-full py-3 px-4">
-          <Stories />
-          {/* Posts */}
-          <section className="mt-2 mx-auto w-[100vw] sm:w-[80vw] md:w-[60vw] lg:w-[468px]">
-            {allPosts.map((post) => (
-              <Post
-                key={post._id}
-                post={post}
-                userDetails={userDetails}
-                savedPost={savedPosts}
-                followingUserss={followingUserss}
-                handleLike={handleLike}
-                handleSavePosts={handleSavePosts}
-                showComments={showComments}
-                handleFollowing={handleFollowing}
-                handleCommentSubmit={handleCommentSubmit}
-                handleDeletePost={handleDeletePost}
-              />
-            ))}
+      {/* <main className="flex-1 ml-64 flex justify-center"> */}
+      <main className="flex-1 md:ml-[72px] lg:ml-60">
+        {/* <div className="max-w-2xl w-full py-3 px-4"> */}
+        <div className="max-w-screen-xl mt-14 md:mt-0 mx-auto py-2 md:px-6 lg:px-8">
+          <div className="flex gap-0">
+            <div className="flex-1 max-w-[630px]">
+              <Stories />
+              {/* Posts */}
+              <section className="mt-2 mx-auto sm:w-[80vw] md:w-[60vw] lg:w-[468px]">
+                {allPosts.map((post) => (
+                  <Post
+                    key={post._id}
+                    post={post}
+                    userDetails={userDetails}
+                    savedPost={savedPosts}
+                    followingUserss={followingUserss}
+                    handleLike={handleLike}
+                    handleSavePosts={handleSavePosts}
+                    showComments={showComments}
+                    handleFollowing={handleFollowing}
+                    handleCommentSubmit={handleCommentSubmit}
+                    handleDeletePost={handleDeletePost}
+                  />
+                ))}
 
-            {isLoading && <InstagramSkeletonComponent />}
-            {!hasMore && <div>No more posts to load</div>}
-          </section>
+                {isLoading && <InstagramSkeletonComponent />}
+                {!hasMore && <div>No more posts to load</div>}
+              </section>
+            </div>
+            <SuggestedUsers />
+          </div>
         </div>
-        <SuggestedUsers />
       </main>
     </div>
   </div>
